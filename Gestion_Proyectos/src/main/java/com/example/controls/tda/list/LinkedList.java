@@ -150,19 +150,7 @@ public class LinkedList<E> {
         }
     }
 
-    public void delete(Integer index) throws ListEmptyException{
-        if (index == 0) {
-            deleteHeader();
-        } else if (index == this.size-1){
-            deleteLast();
-        } else {
-            Node<E> before = getNode(index-1);
-            Node<E> actual = getNode(index);
 
-            before.setNext(actual.getNext());
-            actual = null;
-        }
-    }
 
     @Override
     public String toString() {
@@ -200,5 +188,57 @@ public class LinkedList<E> {
             this.add(matrix[i]);
         }
         return this;
+    }
+
+    public void set(int index, E element) throws IndexOutOfBoundsException {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Índice fuera de rango");
+        }
+        Node<E> current = header;
+        for (int i = 0; i < index; i++) {
+            current = current.getNext();
+        }
+        current.setInfo(element); // Cambia la información en el nodo
+    }
+    public void delete(Integer index) throws ListEmptyException{
+        if (isEmpty()) {
+            throw new ListEmptyException("Error, Lista vacia");   
+        } else if (index.intValue() < 0 || index.intValue() >= this.size.intValue()) {
+            throw new IndexOutOfBoundsException("Error, fuera de rango");
+        } else if (index == 0) {
+            this.header = this.header.getNext();
+            this.size--;
+        } else if (index == this.size-1){
+            Node<E> before = getNode(this.size-2);
+            before.setNext(null);
+            this.last = before;
+            this.size--;
+        } else {
+            Node<E> before = getNode(index-1);
+            Node<E> actual = getNode(index);
+
+            before.setNext(actual.getNext());
+            actual = null;
+        }
+    }
+
+    public void update(E info, Integer index) throws ListEmptyException, IndexOutOfBoundsException {
+        if (isEmpty()) {
+            throw new ListEmptyException("Error, Lista vacia");
+        } else if (index.intValue() < 0 || index.intValue() >= this.size.intValue()) {
+            throw new IndexOutOfBoundsException("Error, fuera de rango");
+        } else if (index.intValue() == 0) {
+            header.setInfo(info);
+        } else if (index.intValue() == (this.size - 1)) {
+            last.setInfo(info);
+        } else {
+            Node<E> search = header;
+            int cont = 0;
+            while (cont < index.intValue()) {
+                cont++;
+                search = search.getNext();
+            }
+            search.setInfo(info);
+        }
     }
 }
