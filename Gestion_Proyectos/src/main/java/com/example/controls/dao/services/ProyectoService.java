@@ -6,28 +6,32 @@ import com.example.controls.tda.list.LinkedList;
 
 public class ProyectoService {
     private ProyectoDao obj;
-    
+
     public ProyectoService() {
         obj = new ProyectoDao(); 
     }
     
     public ProyectoService(ProyectoDao proyectoDao) {
-        obj = new ProyectoDao();
+        obj = proyectoDao;
     }
 
-    public Boolean save() throws Exception {
-        return obj.save();
+    public void save(Proyecto proyecto) throws Exception {
+        obj.persist(proyecto);
     }
 
     public LinkedList<Proyecto> listAll() {
-        return obj.getListAll();
+        return obj.listAll();
     }
 
-    public Proyecto getProyecto() {
-        return obj.getProyecto();
+    public Proyecto get(Integer id) throws Exception {
+        return obj.get(id);
     }
 
-    public void setProyecto(Proyecto proyecto) {
-        obj.setProyecto(proyecto);
+    public void updateByIndex(Integer index, Proyecto proyecto) throws Exception {
+        obj.merge(proyecto, index);
+    }
+
+    public void deleteByIndex(Integer index) throws Exception {
+        obj.delete(index);
     }
 }

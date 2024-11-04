@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Proyecto {
-    private int idProyecto;
+    private Integer idProyecto;
     private String nombre;
     private int tiempoVida;
     private Date fechaInicio;
@@ -15,7 +15,7 @@ public class Proyecto {
         
     }
 
-    public Proyecto(int idProyecto, String nombre, int tiempoVida, Date fechaInicio, Date fechaFin, List<Inversionista> inversionistas) {
+    public Proyecto(Integer idProyecto, String nombre, int tiempoVida, Date fechaInicio, Date fechaFin, List<Inversionista> inversionistas) {
         this.idProyecto = idProyecto;
         this.nombre = nombre;
         this.tiempoVida = tiempoVida;
@@ -25,11 +25,11 @@ public class Proyecto {
     }
 
 
-    public int getIdProyecto() {
+    public Integer getIdProyecto() {
         return this.idProyecto;
     }
 
-    public void setIdProyecto(int idProyecto) {
+    public void setIdProyecto(Integer idProyecto) {
         this.idProyecto = idProyecto;
     }
 
@@ -73,9 +73,10 @@ public class Proyecto {
         this.inversionistas = inversionistas;
     }
 
-    // Constructor
+    public void addInversionista(Inversionista inversionista) {
+        this.inversionistas.add(inversionista);
+    }
 
-    // Getters and Setters
-    // toString, equals, hashCode
+
 }
 

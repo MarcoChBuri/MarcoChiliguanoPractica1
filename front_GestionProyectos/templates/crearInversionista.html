@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if inversionista %}Editar{% else %}Crear{% endif %} Inversionista</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>{% if inversionista %}Editar{% else %}Crear{% endif %} Inversionista</h1>
+
+        {% if mensaje %}
+            <p class="error">{{ mensaje }}</p>
+        {% endif %}
+
+        <form action="{% if inversionista %}{{ url_for('router.editarInversionista', idInversionista=inversionista.id) }}{% else %}{{ url_for('router.crearInversionista') }}{% endif %}" method="POST">
+            <div class="form-group">
+                <label for="name">Nombre:</label>
+                <input type="text" id="name" name="name" value="{{ inversionista.name if inversionista else '' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Apellido:</label>
+                <input type="text" id="lastName" name="lastName" value="{{ inversionista.lastName if inversionista else '' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="dni">DNI:</label>
+                <select id="dni" name="dni" required>
+                    <option value="" disabled {% if not inversionista %}selected{% endif %}>Seleccione un DNI</option>
+                    {% for dni_option in dni_options %}
+                        <option value="{{ dni_option }}" {% if inversionista and inversionista.dni == dni_option %}selected{% endif %}>{{ dni_option }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="identification">Identificación:</label>
+                <input type="text" id="identification" name="identification" value="{{ inversionista.identification if inversionista else '' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="direction">Dirección:</label>
+                <input type="text" id="direction" name="direction" value="{{ inversionista.direction if inversionista else '' }}" required>
+            </div>
+            <button type="submit" class="btn">{% if inversionista %}Actualizar{% else %}Crear{% endif %} Inversionista</button>
+        </form>
+
+        <a href="{{ url_for('router.lista_Inversionista') }}" class="btn">Volver a la lista de inversionistas</a>
+    </div>
+</body>
+</html>

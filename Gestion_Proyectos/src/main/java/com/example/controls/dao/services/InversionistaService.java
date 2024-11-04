@@ -10,21 +10,28 @@ public class InversionistaService {
     public InversionistaService() {
         obj = new InversionistaDao();
     }
+
+    public InversionistaService(InversionistaDao inversionistaDao) {
+        obj = inversionistaDao;
+    }
     
-    
-    public Boolean save() throws Exception {
-        return obj.save();
+    public void save(Inversionista inversionista) throws Exception {
+        obj.persist(inversionista);
     }
 
     public LinkedList<Inversionista> listAll() {
-        return obj.getListAll();
+        return obj.listAll();
     }
 
-    public Inversionista getInversionista() {
-        return obj.getInversionista();
+    public Inversionista get(Integer id) throws Exception {
+        return obj.get(id);
     }
 
-    public void setInversionista (Inversionista inversionista) {
-        obj.setInversionista(inversionista);
+    public void updateByIndex(Integer index, Inversionista inversionista) throws Exception {
+        obj.merge(inversionista, index);
+    }
+
+    public void deleteByIndex(Integer index) throws Exception {
+        obj.delete(index);
     }
 }

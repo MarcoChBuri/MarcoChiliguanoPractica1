@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if proyecto %}Actualizar Proyecto{% else %}Crear Proyecto{% endif %}</title>
+</head>
+<body>
+    <h1>{% if proyecto %}Actualizar Proyecto{% else %}Crear Proyecto{% endif %}</h1>
+    <form action="{% if proyecto %}{{ url_for('router.actualizarProyecto', idProyecto=proyecto.idProyecto) }}{% else %}{{ url_for('router.crearProyecto') }}{% endif %}" method="POST">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" value="{{ proyecto.nombre if proyecto else '' }}" required>
+
+        <label for="tiempoVida">Tiempo de Vida:</label>
+        <input type="number" id="tiempoVida" name="tiempoVida" value="{{ proyecto.tiempoVida if proyecto else '' }}" required>
+
+        <label for="fechaInicio">Fecha de Inicio:</label>
+        <input type="date" id="fechaInicio" name="fechaInicio" value="{{ proyecto.fechaInicio if proyecto else '' }}" required>
+
+        <label for="fechaFin">Fecha de Fin:</label>
+        <input type="date" id="fechaFin" name="fechaFin" value="{{ proyecto.fechaFin if proyecto else '' }}" required>
+
+        <button type="submit">{{ 'Actualizar' if proyecto else 'Crear' }}</button>
+    </form>
+    
+    <a href="{{ url_for('router.lista_Proyectos') }}">Volver a la lista de proyectos</a>
+</body>
+</html>

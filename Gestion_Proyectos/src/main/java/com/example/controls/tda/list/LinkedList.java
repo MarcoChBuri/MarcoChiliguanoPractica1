@@ -17,6 +17,11 @@ public class LinkedList<E> {
         return (this.header == null || this.size == 0);
     }
 
+
+
+
+
+
     public Integer getSize() {
         return this.size;
     }
@@ -240,5 +245,8 @@ public class LinkedList<E> {
             }
             search.setInfo(info);
         }
+    }
+    public void getListAll(){
+        
     }
 }
