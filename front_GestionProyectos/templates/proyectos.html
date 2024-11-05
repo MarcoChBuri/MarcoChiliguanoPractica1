@@ -74,6 +74,8 @@
                                         <th>Tiempo de Vida</th>
                                         <th>Fecha de Inicio</th>
                                         <th>Fecha de Fin</th>
+                                        <th>Energia GEnerada</th>
+                                        <th>Inversion</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -85,6 +87,9 @@
                                         <td>{{ proyecto.tiempoVida }}</td>
                                         <td>{{ proyecto.fechaInicio }}</td>
                                         <td>{{ proyecto.fechaFin }}</td>
+                                        <td>{{ proyecto.energiaGenerada }}</td>
+                                        <td>{{ proyecto.inversion }}</td>
+
                                         <td>
                                             <a href="/proyectos/editar/{{ proyecto.idProyecto }}" class="btn btn-primary btn-sm">Editar</a>
                                             <form action="/proyectos/eliminar/{{ proyecto.idProyecto }}" method="post" style="display:inline;">

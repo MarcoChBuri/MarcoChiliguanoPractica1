@@ -46,68 +46,72 @@ def lista_Proyectos():
     if error:
         return error, 400
 
-    if data is None:
-        data = []
-
+    # Convertir las fechas de timestamp a un formato legible
     for proyecto in data:
-        # Convertir las fechas de timestamp a un formato legible
         proyecto['fechaInicio'] = format_date(proyecto['fechaInicio'])
         proyecto['fechaFin'] = format_date(proyecto['fechaFin'])
 
     return render_template('proyectos.html', proyectos=data, mensaje="No hay proyectos creados." if not data else "")
 
-
-
-@router.route('/proyecto/crear', methods=['GET', 'POST'])
+@router.route('/proyectos/crear', methods=['GET', 'POST'])
 def crearProyecto():
     if request.method == 'POST':
-        data = {
-            "nombre": request.form['nombre'],
-            "tiempoVida": int(request.form['tiempoVida']),
-            "fechaInicio": int(datetime.strptime(request.form['fechaInicio'], '%Y-%m-%d').timestamp() * 1000),
-            "fechaFin": int(datetime.strptime(request.form['fechaFin'], '%Y-%m-%d').timestamp() * 1000),
-        }
-        success, error = post_data(URL_LINKEDLISTS + 'proyecto', data)
-        if success:
-            return redirect(url_for('router.lista_Proyectos'))
-        return error, 400
+        try:
+            data = {
+                "nombre": request.form['nombre'],
+                "tiempoVida": int(request.form['tiempoVida']),
+                "fechaInicio": int(datetime.strptime(request.form['fechaInicio'], '%Y-%m-%d').timestamp() * 1000),
+                "fechaFin": int(datetime.strptime(request.form['fechaFin'], '%Y-%m-%d').timestamp() * 1000),
+                "energiaGenerada": float(request.form['energiaGenerada']),
+                "inversion": float(request.form['inversion']),
+            }
+
+            print(data)  # Imprime los datos para debug
+            success, error = post_data(URL_LINKEDLISTS + 'proyecto', data)
+            if success:
+                return redirect(url_for('router.lista_Proyectos'))
+            return error, 400
+        except Exception as e:
+            return f"Error al crear el proyecto: {e}", 400
+    
     return render_template('crearProyecto.html')
-
-
 
 @router.route('/proyectos/editar/<int:idProyecto>/', methods=['GET', 'POST'])
 def actualizarProyecto(idProyecto):
     if request.method == 'POST':
-        data = {
-            "nombre": request.form['nombre'],
-            "tiempoVida": int(request.form['tiempoVida']),
-            "fechaInicio": int(datetime.strptime(request.form['fechaInicio'], '%Y-%m-%d').timestamp() * 1000),
-            "fechaFin": int(datetime.strptime(request.form['fechaFin'], '%Y-%m-%d').timestamp() * 1000),
-
-        }
-        success, error = put_data(URL_LINKEDLISTS + f'proyecto/{idProyecto}', data)
-        if success:
-            return redirect(url_for('router.lista_Proyectos'))
-        return error, 400
+        try:
+            data = {
+                "nombre": request.form['nombre'],
+                "tiempoVida": int(request.form['tiempoVida']),
+                "fechaInicio": int(datetime.strptime(request.form['fechaInicio'], '%Y-%m-%d').timestamp() * 1000),
+                "fechaFin": int(datetime.strptime(request.form['fechaFin'], '%Y-%m-%d').timestamp() * 1000),
+                "energiaGenerada": float(request.form['energiaGenerada']),
+                "inversion": float(request.form['inversion']),
+            }
+            success, error = put_data(URL_LINKEDLISTS + f'proyecto/{idProyecto}', data)
+            if success:
+                return redirect(url_for('router.lista_Proyectos'))
+            return error, 400
+        except Exception as e:
+            return f"Error al actualizar el proyecto: {e}", 400
 
     data, error = fetch_data(URL_LINKEDLISTS + f'proyecto/{idProyecto}')
     if error:
         return error, 400
+
     if data:
         data['fechaInicio'] = format_date(data['fechaInicio'])
         data['fechaFin'] = format_date(data['fechaFin'])
         return render_template('crearProyecto.html', proyecto=data)
+
     return "Proyecto no encontrado", 404
-####################################################
+
 @router.route('/inversionistas/')
 def lista_Inversionista():
     data, error = fetch_data(URL_LINKEDLISTS + 'inversionistas')
     if error:
         return error, 400
     return render_template('inversionista.html', inversionistas=data, mensaje="No hay inversionistas creados." if not data else "")
-
-
-
 
 @router.route('/inversionistas/crear', methods=['GET', 'POST'])
 def crearInversionista():
@@ -124,7 +128,7 @@ def crearInversionista():
             return redirect(url_for('router.lista_Inversionista'))
         return error, 400
             
-    dni_options, error = fetch_data(URL_LINKEDLISTS + 'inversionistas/dni')
+    dni_options, error = fetch_data(URL_LINKEDLISTS + 'inversionista/dni')
     dni_options = dni_options or []
     return render_template('crearInversionista.html', dni_options=dni_options)
 
@@ -151,64 +155,16 @@ def editarInversionista(idInversionista):
         return error, 400
 
     # Obtener datos del inversionista a editar
-    inversionista, error = fetch_data(URL_LINKEDLISTS + f'inversionistas/{idInversionista}')
+    inversionista, error = fetch_data(URL_LINKEDLISTS + f'inversionista/{idInversionista}')
     if error:
         return error, 400
 
     # Obtener opciones de DNI para el formulario
-    dni_options, error = fetch_data(URL_LINKEDLISTS + 'inversionistas/dni')
+    dni_options, error = fetch_data(URL_LINKEDLISTS + 'inversionista/dni')
     if error:
         return error, 400
     
     if inversionista:
         return render_template('crearInversionista.html', inversionista=inversionista, dni_options=dni_options)
     
-    return "Inversionista no encontrado", 404 
-########################################################3
-@router.route('/proyectos/detalle')
-def detalle_proyectos():
-    data, error = fetch_data(URL_LINKEDLISTS + "proyecto/detalle")
-    if error:
-        return error, 400
-    return render_template('detallesProyectos.html', list=data)
-
-@router.route('/proyectos/detalle/crear', methods=['GET', 'POST'])
-def add_detalle_proyecto():
-    if request.method == 'POST':
-        data = {
-            'proyecto': request.form['proyecto'],
-            'inversionTotal': request.form['inversionTotal'],
-        }
-        success, error = post_data(URL_LINKEDLISTS + "proyecto/detalle", data)
-        if success:
-            return redirect(url_for('router.detalle_proyectos'))
-        return error, 400
-    return render_template('crearDetalleProyecto.html')
-###############################################################################3
-
-
-
-
-
-#######################################################3
-
-
-@router.route('/inversionistas/detalle')
-def detalle_inversionistas():
-    data, error = fetch_data(URL_LINKEDLISTS + "inversionista/detalle")
-    if error:
-        return error, 400
-    return render_template('detallesInversionistas.html', list=data)
-
-@router.route('/inversionistas/detalle/crear', methods=['GET', 'POST'])
-def add_detalle_inversionista():
-    if request.method == 'POST':
-        data = {
-            'inversionista': request.form['inversionista'],
-            'montoInvertido': request.form['montoInvertido'],
-        }
-        success, error = post_data(URL_LINKEDLISTS + "inversionista/detalle", data)
-        if success:
-            return redirect(url_for('router.detalle_inversionistas'))
-        return error, 400
-    return render_template('crearDetalleInversionista.html')
+    return "Inversionista no encontrado", 404

@@ -1,7 +1,6 @@
 package com.example.models;
-
 import java.util.Date;
-import java.util.List;
+import com.example.controls.tda.list.*;
 
 public class Proyecto {
     private Integer idProyecto;
@@ -9,24 +8,25 @@ public class Proyecto {
     private int tiempoVida;
     private Date fechaInicio;
     private Date fechaFin;
-    private List<Inversionista> inversionistas;
+    private LinkedList<Inversionista> inversionistas;
+    private double inversion;
+    private double energiaGenerada;
 
-    public Proyecto (){
-        
-    }
-
-    public Proyecto(Integer idProyecto, String nombre, int tiempoVida, Date fechaInicio, Date fechaFin, List<Inversionista> inversionistas) {
+    // Constructor
+    public Proyecto(Integer idProyecto, String nombre, int tiempoVida, Date fechaInicio, Date fechaFin, LinkedList<Inversionista> inversionistas, double inversion, double energiaGenerada) {
         this.idProyecto = idProyecto;
         this.nombre = nombre;
         this.tiempoVida = tiempoVida;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.inversionistas = inversionistas;
+        this.inversion = inversion;
+        this.energiaGenerada = energiaGenerada;
     }
 
-
+    // Getters and Setters
     public Integer getIdProyecto() {
-        return this.idProyecto;
+        return idProyecto;
     }
 
     public void setIdProyecto(Integer idProyecto) {
@@ -34,7 +34,7 @@ public class Proyecto {
     }
 
     public String getNombre() {
-        return this.nombre;
+        return nombre;
     }
 
     public void setNombre(String nombre) {
@@ -42,7 +42,7 @@ public class Proyecto {
     }
 
     public int getTiempoVida() {
-        return this.tiempoVida;
+        return tiempoVida;
     }
 
     public void setTiempoVida(int tiempoVida) {
@@ -50,7 +50,7 @@ public class Proyecto {
     }
 
     public Date getFechaInicio() {
-        return this.fechaInicio;
+        return fechaInicio;
     }
 
     public void setFechaInicio(Date fechaInicio) {
@@ -58,25 +58,34 @@ public class Proyecto {
     }
 
     public Date getFechaFin() {
-        return this.fechaFin;
+        return fechaFin;
     }
 
     public void setFechaFin(Date fechaFin) {
         this.fechaFin = fechaFin;
     }
 
-    public List<Inversionista> getInversionistas() {
-        return this.inversionistas;
+    public LinkedList<Inversionista> getInversionistas() {
+        return inversionistas;
     }
 
-    public void setInversionistas(List<Inversionista> inversionistas) {
+    public void setInversionistas(LinkedList<Inversionista> inversionistas) {
         this.inversionistas = inversionistas;
     }
 
-    public void addInversionista(Inversionista inversionista) {
-        this.inversionistas.add(inversionista);
+    public double getInversion() {
+        return inversion;
     }
 
+    public void setInversion(double inversion) {
+        this.inversion = inversion;
+    }
 
+    public double getEnergiaGenerada() {
+        return energiaGenerada;
+    }
+
+    public void setEnergiaGenerada(double energiaGenerada) {
+        this.energiaGenerada = energiaGenerada;
+    }
 }
-
