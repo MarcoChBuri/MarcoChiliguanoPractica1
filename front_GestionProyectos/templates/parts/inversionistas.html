@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Inversionistas{% endblock %}
+
+{% block content %}
+    <h1>Lista de Inversionistas</h1>
+    
+    <!-- Botón para registrar un nuevo inversionista -->
+    <a href="/inversionistas/registro" class="btn btn-success mb-3">Registrar Nuevo Inversionista</a>
+    
+    <!-- Formulario de ordenación -->
+    <form method="get" action="/inversionistas" class="mb-3">
+        <div class="form-row">
+            <div class="col-md-3">
+                <select name="algorithm" class="form-control">
+                    <option value="default" {% if request.args.get('algorithm') == 'default' %}selected{% endif %}>Algoritmo de Ordenación</option>
+                    <option value="quicksort" {% if request.args.get('algorithm') == 'quicksort' %}selected{% endif %}>Quicksort</option>
+                    <option value="mergesort" {% if request.args.get('algorithm') == 'mergesort' %}selected{% endif %}>Mergesort</option>
+                    <option value="shellsort" {% if request.args.get('algorithm') == 'shellsort' %}selected{% endif %}>shellsort</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select name="attribute" class="form-control">
+                    <option value="nombre" {% if request.args.get('attribute') == 'nombre' %}selected{% endif %}>Nombre</option>
+                    <option value="apellido" {% if request.args.get('attribute') == 'apellido' %}selected{% endif %}>Apellido</option>
+
+                    <option value="identificacion" {% if request.args.get('attribute') == 'identificacion' %}selected{% endif %}>Identificación</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select name="type" class="form-control">
+                    <option value="1" {% if request.args.get('type') == '1' %}selected{% endif %}>Ascendente</option>
+                    <option value="0" {% if request.args.get('type') == '0' %}selected{% endif %}>Descendente</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary btn-block">Ordenar</button>
+            </div>
+        </div>
+    </form>
+    
+    <!-- Tabla de inversionistas -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Email</th>
+                <th>Tipo</th>
+                <th>Identificación</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inversionista in inversionistas %}
+                <tr>
+                    <td>{{ inversionista.nombre }}</td>
+                    <td>{{ inversionista.apellido }}</td>
+                    <td>{{ inversionista.email }}</td>
+                    <td>{{ inversionista.tipo }}</td>
+                    <td>{{ inversionista.identificacion }}</td>
+                    <td>
+                        <a href="/inversionistas/edit/{{ inversionista.id }}" class="btn btn-warning btn-sm">Editar</a>
+                        <form action="/inversionistas/delete" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="{{ inversionista.id }}">
+                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

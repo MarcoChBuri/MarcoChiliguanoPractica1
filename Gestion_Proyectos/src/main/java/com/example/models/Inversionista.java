@@ -1,55 +1,47 @@
 package com.example.models;
-import com.example.models.ENUM.Dni;
-
+import com.example.models.ENUM.*;
 public class Inversionista {
-    private Integer idInversionista;
-    private String name;
-    private String lastName;
-    private Dni dni;
+    private Integer id;
+    private String nombre;
+    private String apellido;
     private String identification;
-    private String direction;
-    public Inversionista(){
+    private String email;
+    private Dni tipo;
 
-    }
+  
 
-    public Inversionista(Integer idInversionista, String name, String lastName, Dni dni, String identification, String direction) {
-        this.idInversionista = idInversionista;
-        this.name = name;
-        this.lastName = lastName;
-        this.dni = dni;
-        this.identification = identification;
-        this.direction = direction;
+    public Inversionista() {
+        this.id = 0;
+        this.nombre = "";
+        this.apellido = "";
+        this.identification = "";
+        this.email = "";
+
     }
     public Integer getId() {
-        return idInversionista;
+        return this.id;
     }
-    public void setId(Integer idInversionista) {
-        this.idInversionista = idInversionista;
-    }
-
-    public String getName() {
-        return this.name;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getNombre() {
+        return this.nombre;
     }
 
-    public String getLastName() {
-        return this.lastName;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public String getApellido() {
+        return this.apellido;
     }
 
-    public Dni getDni() {
-        return this.dni;
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
-    public void setDni(Dni dni) {
-        this.dni = dni;
-    }
+
 
     public String getIdentification() {
         return this.identification;
@@ -59,12 +51,19 @@ public class Inversionista {
         this.identification = identification;
     }
 
-    public String getDirection() {
-        return this.direction;
+    public String getEmail() {
+        return this.email;
     }
 
-    public void setDirection(String direction) {
-        this.direction = direction;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
+    public Dni getTipo() {
+        return this.tipo;
+    }
+
+    public void setTipo(Dni tipo) {
+        this.tipo = tipo;
+    }
 }

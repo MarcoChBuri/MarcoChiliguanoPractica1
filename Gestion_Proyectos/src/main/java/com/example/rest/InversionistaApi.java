@@ -1,136 +1,182 @@
 package com.example.rest;
 
-import java.util.Arrays;
-import java.util.HashMap;
-
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import java.util.HashMap;
+
+
 import com.example.controls.dao.services.InversionistaService;
 import com.example.models.Inversionista;
-import com.example.models.ENUM.Dni;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.example.controls.tda.list.*;
 
-@Path("/inversionistas")
+@Path("inversionistas")
 public class InversionistaApi {
-    private static final Gson gson = new GsonBuilder().create();
-    private InversionistaService is = new InversionistaService(); // Inicializa el servicio una vez
-
+    @Path("/all")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllInversionistas() {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("msg", "Ok");
-        map.put("data", is.listAll().toArray());
-        return Response.ok(map).build();
+    public Response getAllOperations() throws Exception {
+        HashMap map = new HashMap<>();
+            InversionistaService ps = new    InversionistaService();
+
+        try {
+            map.put("msg", "OK");
+            map.put("data", ps.listAll().toArray());
+
+            if (ps.listAll().isEmpty()) {
+                map.put("data", new Object[]{});
+            }
+
+            return Response.ok(map).build();
+        } catch (Exception e) {
+            HashMap<String, String> error = new HashMap<>();
+            error.put("msg", "Error");
+            error.put("data", e.toString());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
+        }
     }
 
+    @Path("/save")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createInversionista(Inversionista inversionista) {
-        HashMap<String, Object> map = new HashMap<>();
+    public Response save(HashMap map) {
+        HashMap res = new HashMap<>();
+        
         try {
-            if (inversionista.getDni() == null) {
-                map.put("msg", "El campo dni es obligatorio.");
-                return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
-            }
-            is.save(inversionista);
-            map.put("msg", "Inversionista creado exitosamente");
-            map.put("data", inversionista);
-            return Response.ok(map).build();
-        } catch (Exception e) {
-            map.put("msg", "Error al crear el inversionista.");
-            System.err.println("Error guardando inversionista: " + e.getMessage());
-            e.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
-        }
-    }
-    
+                InversionistaService ps = new    InversionistaService();
 
-    @DELETE
-    @Path("/{idInversionista}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteInversionista(@PathParam("idInversionista") Integer idInversionista) {
-        HashMap<String, Object> map = new HashMap<>();
-        try {
-            is.deleteByIndex(idInversionista); // Usa el método deleteByIndex
-            map.put("msg", "Inversionista eliminado exitosamente");
-            return Response.ok(map).build();
+            ps.getInversionista().setNombre(map.get("nombre").toString());
+            ps.getInversionista().setApellido(map.get("apellido").toString());
+            ps.getInversionista().setEmail(map.get("email").toString());
+            ps.save();
+
+            res.put("msg", "OK");
+            res.put("data", "Persona registrada correctamente");
+
+            return Response.ok(res).build();
         } catch (Exception e) {
-            map.put("msg", "Error al eliminar el inversionista.");
-            System.err.println("Error eliminando inversionista: " + e.getMessage());
-            e.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
+            res.put("msg", "Error");
+            res.put("data", e.toString());
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(res).build();
         }
     }
-    
-    @Path("/dni")
+
+    @Path("/get/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getDniOptions() {
-        HashMap<String, Object> map = new HashMap<>();
-        String[] dniOptions = Arrays.stream(Dni.values())
-                                    .map(Dni::name)
-                                    .toArray(String[]::new);
-        map.put("msg", "Opciones de DNI");
-        map.put("data", dniOptions);
+    public Response getInversionista(@PathParam("id") Integer id) throws Exception {
+        HashMap map = new HashMap<>();
+            InversionistaService ps = new  InversionistaService();
+        Inversionista inversionista = ps.get(id);
+
+        if (inversionista == null || inversionista.getId() == null) {
+            map.put("msg", "Error");
+            map.put("data", "No existe esa Inversionista");
+            return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
+        }
+
+        map.put("msg", "OK");
+        map.put("data", inversionista);
+
         return Response.ok(map).build();
     }
-    
 
-    @GET
-    @Path("/{idInversionista}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getInversionista(@PathParam("idInversionista") Integer idInversionista) {
-        HashMap<String, Object> map = new HashMap<>();
-        try {
-            Inversionista inversionista = is.get(idInversionista); // Cambiado a is.get
-            if (inversionista == null) {
-                map.put("msg", "No se encontró el inversionista");
-                return Response.status(Response.Status.NOT_FOUND).entity(map).build();
-            }
-            map.put("msg", "Inversionista encontrado");
-            map.put("data", inversionista);
-            return Response.ok(map).build();
-        } catch (Exception e) {
-            map.put("msg", "Error al obtener el inversionista.");
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
-        }
-    }
-
-    @PUT
-    @Path("/{idInversionista}")
+    @Path("/update")
+    @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateInversionista(@PathParam("idInversionista") Integer idInversionista, Inversionista inversionista) {
-        HashMap<String, Object> map = new HashMap<>();
-        try {
-            Inversionista existingInversionista = is.get(idInversionista);
-            if (existingInversionista == null) {
-                map.put("msg", "No se pudo encontrar el inversionista para actualizar");
-                return Response.status(Response.Status.NOT_FOUND).entity(map).build();
-            }
+    public Response update(HashMap map) {
+        HashMap res = new HashMap<>();
 
-            inversionista.setId(idInversionista); // Asegúrate de que el ID se establezca
-            is.updateByIndex(idInversionista, inversionista); // Actualiza el inversionista por índice
-            map.put("msg", "Inversionista actualizado exitosamente");
-            map.put("data", inversionista);
-            return Response.ok(map).build();
+        try {
+                InversionistaService ps = new    InversionistaService();
+
+            ps.setInversionista(ps.get(Integer.parseInt(map.get("id").toString())));
+            ps.getInversionista().setNombre(map.get("nombre").toString());
+            ps.getInversionista().setApellido(map.get("apellido").toString());
+            ps.getInversionista().setEmail(map.get("email").toString());
+            ps.update();
+
+            res.put("msg", "OK");
+            res.put("data", "Persona actualizada correctamente");
+
+            return Response.ok(res).build();
         } catch (Exception e) {
-            map.put("msg", "Error al actualizar el inversionista.");
-            System.err.println("Error actualizando inversionista: " + e.getMessage());
-            e.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
+            res.put("msg", "Error");
+            res.put("data", e.toString());
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(res).build();
         }
     }
+
+    @Path("/delete")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response delete(HashMap map) {
+        HashMap res = new HashMap<>();
+
+        try {
+                InversionistaService ps = new    InversionistaService();
+            
+            Inversionista Inversionista = ps.get(Integer.parseInt(map.get("id").toString()));
+
+            if (Inversionista == null || Inversionista.getId() == null) {
+                res.put("msg", "Error");
+                res.put("data", "No existe esa Inversionista");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+
+            ps.setInversionista(Inversionista);
+            ps.delete();
+
+            res.put("msg", "OK");
+            res.put("data", "Persona eliminada correctamente");
+
+            return Response.ok(res).build();
+        } catch (Exception e) {
+            res.put("msg", "Error");
+            res.put("data", e.toString());
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(res).build();
+        }
+    }
+    @Path("/order/{algorithm}/{attribute}/{type}")
+@GET
+@Produces(MediaType.APPLICATION_JSON)
+public Response EscogerOrdenamiento(
+    @PathParam("algorithm") String algorithm,
+    @PathParam("attribute") String attribute,
+    @PathParam("type") Integer type
+) {
+    HashMap<String, Object> map = new HashMap<>();
+    if (algorithm == null || attribute == null || type == null) {
+        map.put("msg", "Error: Parámetros inválidos o faltantes.");
+        return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
+    }
+
+    try {
+        InversionistaService ps = new InversionistaService();
+        LinkedList data = ps.EscogerOrdenamiento(algorithm, attribute, type);
+        map.put("data", data.toArray());
+
+        if (data.isEmpty()) {
+            map.put("msg", "No data found");
+        }
+    } catch (Exception e) {
+        map.put("msg", e.toString());
+        return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
+    }
+    return Response.ok(map).build();
+}
+    
+
 }

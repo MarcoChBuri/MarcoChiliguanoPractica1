@@ -2,36 +2,48 @@ package com.example.controls.dao.services;
 
 import com.example.controls.dao.ProyectoDao;
 import com.example.models.Proyecto;
+import com.example.models.Proyecto;
 import com.example.controls.tda.list.LinkedList;
 
 public class ProyectoService {
-    private ProyectoDao obj;
+    private ProyectoDao proyecto;
 
-    public ProyectoService() {
-        obj = new ProyectoDao(); 
-    }
-    
-    public ProyectoService(ProyectoDao proyectoDao) {
-        obj = proyectoDao;
+    public  ProyectoService() {
+        this.proyecto = new ProyectoDao();
     }
 
-    public void save(Proyecto proyecto) throws Exception {
-        obj.persist(proyecto);
+    public Boolean save() throws Exception {
+        return this.proyecto.save();
     }
 
-    public LinkedList<Proyecto> listAll() {
-        return obj.listAll();
+    public Boolean update() throws Exception {
+        return this.proyecto.update();
     }
 
-    public Proyecto get(Integer id) throws Exception {
-        return obj.get(id);
+    public Boolean delete() throws Exception {
+        return this.proyecto.delete();
     }
 
-    public void updateByIndex(Integer index, Proyecto proyecto) throws Exception {
-        obj.merge(proyecto, index);
+    public Proyecto get(Integer id) throws Exception{
+        return this.proyecto.get(id);
     }
 
-    public void deleteByIndex(Integer index) throws Exception {
-        obj.delete(index);
+    public LinkedList listAll() {
+        return this.proyecto.getListAll();
     }
+
+    public Proyecto getProyecto() {
+        return this.proyecto.getProyecto();
+    }
+
+     public void setProyecto(Proyecto proyecto) {
+         this.proyecto.setProyecto(proyecto);
+     }
+
+     public LinkedList<Proyecto> ordenar(String criterio, boolean ascendente){
+        return this.ordenar(criterio, ascendente);
+     }
 }
+
+    
+

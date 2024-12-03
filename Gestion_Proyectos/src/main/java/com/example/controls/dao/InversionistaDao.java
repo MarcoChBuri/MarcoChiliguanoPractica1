@@ -1,57 +1,102 @@
 package com.example.controls.dao;
 
-import com.example.controls.dao.Implement.AdapterDao;
-import com.example.models.Inversionista;
-import com.example.controls.dao.Implement.InterfazDao;
-import com.example.controls.tda.list.LinkedList;
-import com.example.controls.exception.ListEmptyException;
 
-public class InversionistaDao implements InterfazDao<Inversionista> {
-    private LinkedList<Inversionista> inversionistas;
-    private AdapterDao<Inversionista> adapterDao;
+import com.example.controls.dao.Implement.AdapterDao;
+import com.example.controls.tda.list.LinkedList;
+import com.example.models.Inversionista;
+import com.example.models.ENUM.Dni;
+
+
+public class InversionistaDao extends AdapterDao<Inversionista> {
+    private Inversionista inversionista;
+    private LinkedList listAll;
 
     public InversionistaDao() {
-         this.inversionistas = new LinkedList<>();
-        this.adapterDao = new AdapterDao<>(Inversionista.class);
-        this.inversionistas = adapterDao.listAll();
-        System.out.println("inversionista cargados en el constructor: " + inversionistas);
+        super(Inversionista.class);
+    }
+    
+    public Inversionista getInversionista() {
+        if(this.inversionista == null) {
+            this.inversionista = new Inversionista();
+        }
 
+        return this.inversionista;
     }
 
-    @Override
-    public LinkedList<Inversionista> listAll() {
-        return inversionistas;
+    public void setInversionista(Inversionista inversionista) {
+        this.inversionista = inversionista;
     }
 
-    @Override
-    public void persist(Inversionista inversionista) throws Exception {
-        inversionistas.add(inversionista);
-        adapterDao.persist(inversionista); // Persistir el nuevo inversionista
+    public LinkedList getListAll() {
+        if (listAll == null) {
+            this.listAll = listAll();
+        }
+        return this.listAll;
     }
 
-    @Override
-    public void merge(Inversionista inversionista, Integer index) throws Exception {
-        inversionistas.update(inversionista, index);
-        adapterDao.merge(inversionista, index); // Sincronizar el cambio en persistencia
-    }
-
-    @Override
-    public Inversionista get(Integer id) throws Exception {
+    public Boolean save() throws Exception {
+        Integer id = getListAll().getSize() +1;
         try {
-            return inversionistas.get(id - 1); // Obtener inversionista por índice ajustado
-        } catch (IndexOutOfBoundsException | ListEmptyException e) {
-            System.err.println("Error al obtener el inversionista: " + e.getMessage());
-            return null;
+            inversionista.setId(id);
+            this.persist(this.inversionista);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
-    @Override
-    public void delete(Integer id) throws Exception {
+    public Boolean update() throws Exception {
         try {
-            inversionistas.delete(id);
-            adapterDao.delete(id); // Eliminar de la persistencia
-        } catch (ListEmptyException e) {
-            System.err.println("La lista de inversionistas está vacía: " + e.getMessage());
+            this.merge(this.inversionista, this.inversionista.getId()-1);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
+
+    public Boolean delete() throws Exception {
+        try {
+            this.delete(this.inversionista.getId()-1);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public Dni getDni (String tipo){
+        return Dni.valueOf(tipo);
+    }
+    public Dni[] getTipos(){
+        return Dni.values();
+
+    }
+    public boolean correoUnico  (String email) throws Exception{
+        LinkedList inversionistas = getListAll();
+        
+        for (int i = 0; i < inversionistas.getSize(); i++) {
+            Inversionista inversionista = (Inversionista) inversionistas.get(i);  
+            if (inversionista.getEmail().equals(email)) {
+                return false; 
+            }
+        }
+        return true; 
+    }
+    // public LinkedList EscogerOrdenamiento(String algorithm, String attribute, Integer type) throws Exception {
+    //     LinkedList inversionista = listAll(); 
+
+    //     return inversionista.sort(algorithm, attribute, type); // Llama al método sort de tu lista enlazada.
+    // }
+    
+    public LinkedList EscogerOrdenamiento(String algorithm, String attribute, Integer type) throws Exception {
+        LinkedList inversionistas = getListAll();
+        if (inversionistas == null || inversionistas.getSize() == 0) {
+            throw new Exception("La lista de inversionistas está vacía.");
+        }
+        return inversionistas.sort(algorithm, attribute, type);
+    }
+    
+    
+
 }

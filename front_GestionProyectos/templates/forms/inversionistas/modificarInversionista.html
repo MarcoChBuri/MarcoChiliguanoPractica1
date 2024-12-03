@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Inversionista{% endblock %}
+
+{% block content %}
+    <h1>Editar Inversionista</h1>
+    <form action="/inversionistas/update" method="post">
+        <input type="hidden" name="id" value="{{ inversionista.id }}">
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" name="nombre" class="form-control" value="{{ inversionista.nombre }}" required>
+        </div>
+        <div class="form-group">
+            <label for="apellido">Apellido:</label>
+            <input type="text" name="apellido" class="form-control" value="{{ inversionista.apellido }}" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" name="email" class="form-control" value="{{ inversionista.email }}" required>
+        </div>
+        <div class="form-group">
+            <label for="tipo">Tipo:</label>
+            <input type="text" name="tipo" class="form-control" value="{{ inversionista.tipo }}" required>
+        </div>
+        <div class="form-group">
+            <label for="identificacion">Identificación:</label>
+            <input type="text" name="identificacion" class="form-control" value="{{ inversionista.identificacion }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Actualizar</button>
+    </form>
+{% endblock %}

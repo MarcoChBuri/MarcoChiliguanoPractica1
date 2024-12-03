@@ -1,7 +1,16 @@
 package com.example.models.ENUM;
 
 public enum Dni {
-    PASAPORTE,
-    RUC,
-    CEDULA;
+
+    CEDULA("CEDULA"), RUC ("RUC"),PASAPORTE("PASAPORTE");
+    private String name;
+    
+    Dni(String name){
+        this.name = name;
+    }
+    public String getName(){
+        return name;
+    }
+
+
 }
