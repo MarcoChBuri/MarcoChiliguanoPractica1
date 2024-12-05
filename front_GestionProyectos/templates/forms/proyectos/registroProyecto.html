@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Registrar Proyecto{% endblock %}
+
+{% block content %}
+    <h1>Registrar Proyecto</h1>
+    <form action="/proyectos/registro/save" method="POST">
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" name="nombre" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="fechaInicio">Fecha de Inicio:</label>
+            <input type="date" name="fechaInicio" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="fechaFin">Fecha de Fin:</label>
+            <input type="date" name="fechaFin" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="inversion">Inversión:</label>
+            <input type="number" step="0.01" name="inversion" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="tiempoVida">Tiempo de Vida (en años):</label>
+            <input type="number" name="tiempoVida" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="energia">Energía Generada:</label>
+            <input type="number" step="0.01" name="energia" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
+{% endblock %}

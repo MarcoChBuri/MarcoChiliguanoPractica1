@@ -43,6 +43,17 @@ public class ProyectoService {
      public LinkedList<Proyecto> ordenar(String criterio, boolean ascendente){
         return this.ordenar(criterio, ascendente);
      }
+
+         public LinkedList<Proyecto> EscogerOrdenamiento(String algorithm, String attribute, Integer type) throws Exception {
+        return this.proyecto.getListAll().tipo(algorithm, attribute, type); // Llama al método sort de tu lista enlazada.
+    }
+    public LinkedList<Proyecto>  SearchByBinary(String attribute, String value)throws Exception{
+        return this.proyecto.getListAll().binarySearch(attribute, value);
+    }
+    public LinkedList<Proyecto> SearchLinear(String attribute, String value)throws Exception{
+        return this.proyecto.getListAll().linearSearch(attribute, value);
+
+    }
 }
 
     

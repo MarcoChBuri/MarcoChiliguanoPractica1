@@ -9,11 +9,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import java.util.Date;
 import java.util.HashMap;
 
-
 import com.example.controls.dao.services.ProyectoService;
+import com.example.models.Inversionista;
 import com.example.models.Proyecto;
+import com.example.controls.tda.list.*;
 
 @Path("proyectos")
 public class ProyectoApi {
@@ -52,10 +54,13 @@ public class ProyectoApi {
                 ProyectoService ps = new    ProyectoService();
 
             ps.getProyecto().setNombre(map.get("nombre").toString());
-            ps.getProyecto().setFechaInicio(null);
-            ps.getProyecto().setFechaInicio(null);
-            ps.getProyecto().setInversion(0
-            );
+            ps.getProyecto().setFechaInicio(map.get("fechaInicio").toString());
+            ps.getProyecto().setFechaFin(map.get("fechaFin").toString());
+            ps.getProyecto().setInversion(Float.parseFloat(map.get("inversion").toString()));
+            ps.getProyecto().setTiempoVida(Integer.parseInt(map.get("tiempoVida").toString()));
+            ps.getProyecto().setEnergiaGenerada(Float.parseFloat(map.get("energia").toString()));
+
+
             ps.save();
 
             res.put("msg", "OK");
@@ -101,7 +106,14 @@ public class ProyectoApi {
                 ProyectoService ps = new    ProyectoService();
 
             ps.setProyecto(ps.get(Integer.parseInt(map.get("id").toString())));
+
             ps.getProyecto().setNombre(map.get("nombre").toString());
+            ps.getProyecto().setFechaInicio(map.get("fechaInicio").toString());
+            ps.getProyecto().setFechaFin(map.get("fechaFin").toString());
+            ps.getProyecto().setInversion(Float.parseFloat(map.get("inversion").toString()));
+            ps.getProyecto().setTiempoVida(Integer.parseInt(map.get("tiempoVida").toString()));
+            ps.getProyecto().setEnergiaGenerada(Float.parseFloat(map.get("energia").toString()));
+
             ps.update();
 
             res.put("msg", "OK");
@@ -150,4 +162,90 @@ public class ProyectoApi {
     }
 
 
+    @Path("/order/{algorithm}/{attribute}/{type}")
+@GET
+@Produces(MediaType.APPLICATION_JSON)
+public Response EscogerOrdenamiento(
+    @PathParam("algorithm") String algorithm,
+    @PathParam("attribute") String attribute,
+    @PathParam("type") Integer type
+) {
+    HashMap<String, Object> map = new HashMap<>();
+    if (algorithm == null || attribute == null || type == null) {
+        map.put("msg", "Error: Parámetros inválidos o faltantes.");
+        return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
+    }
+
+    try {
+        ProyectoService ps = new ProyectoService();
+        LinkedList data = ps.EscogerOrdenamiento(algorithm, attribute, type);
+        map.put("data", data.toArray());
+
+        if (data.isEmpty()) {
+            map.put("msg", "No data found");
+        }
+    } catch (Exception e) {
+        map.put("msg", e.toString());
+        return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
+    }
+    return Response.ok(map).build();
+}
+
+@Path("/buscar/LinearSearch/{attribute}/{value}")
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response BuscarLinear(
+        @PathParam("attribute") String attribute,
+        @PathParam("value") String value
+    ) {
+        HashMap<String, Object> map = new HashMap<>();
+        if ( attribute == null || value == null) {
+            map.put("msg", "Error: Parámetros inválidos o faltantes.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
+        }
+
+        try {
+            ProyectoService ps = new ProyectoService();
+            LinkedList data = ps.SearchLinear(attribute, value);
+            map.put("data", data.toArray());
+
+            if (data.isEmpty()) {
+                map.put("msg", "No data found");
+            }
+        } catch (Exception e) {
+            map.put("msg", e.toString());
+            return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
+        }
+        return Response.ok(map).build();
+    }
+    @Path("/buscar/binarySearch/{attribute}/{value}")
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response BuscarBynary(
+        @PathParam("attribute") String attribute,
+        @PathParam("value") String value
+    ) {
+        HashMap<String, Object> map = new HashMap<>();
+        if ( attribute == null || value == null) {
+            map.put("msg", "Error: Parámetros inválidos o faltantes.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
+        }
+
+        try {
+            ProyectoService ps = new ProyectoService();
+            LinkedList data = ps.EscogerOrdenamiento("mergesort", attribute, 1);
+            data = data.binarySearch(attribute, value);
+            map.put("data", data.toArray());
+
+            if (data.isEmpty()) {
+                map.put("data", "No data found");
+            }
+        } catch (Exception e) {
+            map.put("msg", e.toString());
+            return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
+        }
+        return Response.ok(map).build();
+    }
 }

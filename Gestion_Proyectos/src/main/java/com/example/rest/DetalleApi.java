@@ -148,59 +148,7 @@ public class DetalleApi {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(res).build();
         }
     }
-    // @Path("/list/search/{texto}")
-    // @GET
-    // @Produces(MediaType.APPLICATION_JSON)
-    // public Response getPersonsLastName(@PathParam("texto") String texto) {
-    //     HashMap map = new HashMap<>();
-    //     DetalleService ps = new DetalleService();
-    //     map.put("msg", "OK");
-    //     LinkedList lsita = ps.buscar_apellidos(texto);
-    //     map.put("data", lsita.toArray());
-    //     if (lsita.isEmpty()) {
-    //         map.put("data", new Object[] {});
-    //     }
-
-    //     return Response.ok(map).build();
-    // }
-
-    // @Path("/list/order/{attribute}/{type}")
-    // @GET
-    // @Produces(MediaType.APPLICATION_JSON)
-    // public Response getPersonsLastName(@PathParam("attribute") String attribute, @PathParam("type") Integer type) {
-    //     HashMap map = new HashMap<>();
-    //     DetalleService ps = new DetalleService();
-    //     map.put("msg", "OK");
-    //     // pd.order_object(LinkedList.ASC, "apellidos")
-    //     try {
-    //         LinkedList lsita = ps.order_object(type, attribute);
-    //         map.put("data", lsita.toArray());
-    //         if (lsita.isEmpty()) {
-    //             map.put("data", new Object[] {});
-    //         }
-    //     } catch (Exception e) {
-    //         // TODO: handle exception
-    //     }
-
-    //     return Response.ok(map).build();
-    // }
-
-    // @Path("/list/search/ident/{texto}")
-    // @GET
-    // @Produces(MediaType.APPLICATION_JSON)
-    // public Response getPersonsIdent(@PathParam("texto") String texto) {
-    //     HashMap map = new HashMap<>();
-    //     DetalleService ps = new DetalleService();
-    //     map.put("msg", "OK");
-    //     ps.setPersona(ps.buscar_identificacion(texto));
-    //     map.put("data", ps.getPersona());
-    //     if (ps.getPersona().getId() == null) {
-    //         map.put("data", "No existe la persona");
-    //         return Response.status(Status.BAD_REQUEST).header("Access-Control-Allow-Origin", "*").entity(map).build();
-    //     }
-    //     return Response.ok(map).header("Access-Control-Allow-Origin", "*").build();
-
-    // }
+    
 }
 
 

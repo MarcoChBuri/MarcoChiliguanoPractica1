@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %}Inversionistas{% endblock %}
+{% block title %}Proyectos{% endblock %}
 
 {% block content %}
 <!-- Formulario de Ordenación -->
 <form class="mt-4" id="ordenamiento-form">
     <div class="form-container mb-4">
-        <h4>Ordenar Inversionistas</h4>
+        <h4>Ordenar Proyectos</h4>
 
         <div class="form-group">
             <label for="algorithm">Algoritmo de Ordenación</label>
@@ -21,9 +21,9 @@
             <label for="attribute-order">Atributo por el cual ordenar</label>
             <select id="attribute-order" name="attribute" class="form-control">
                 <option value="nombre">Nombre</option>
-                <option value="apellido">Apellido</option>
-                <option value="email">Email</option>
-                <option value="identificacion">Identificación</option>
+                <option value="fecha_inicio">Fecha de Inicio</option>
+                <option value="fecha_fin">Fecha de Fin</option>
+                <option value="inversion">Inversión</option>
             </select>
         </div>
 
@@ -41,10 +41,10 @@
 
 <hr>
 
-<!-- Tabla de Inversionistas -->
+<!-- Tabla de Proyectos -->
 <div class="card">
     <div class="card-header">
-        <div class="card-title">Inversionistas</div>
+        <div class="card-title">Proyectos</div>
     </div>
     <div class="card-body">
         <table class="table table-hover">
@@ -52,22 +52,24 @@
                 <tr>
                     <th>#</th>
                     <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Email</th>
+                    <th>Fecha de Inicio</th>
+                    <th>Fecha de Fin</th>
+                    <th>Inversión</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
                 </tr>
             </thead>
             <tbody>
-                {% for inversionista in inversionistas %}
+                {% for proyecto in proyectos %}
                     <tr>
-                        <td>{{ inversionista.id }}</td>
-                        <td>{{ inversionista.nombre }}</td>
-                        <td>{{ inversionista.apellido }}</td>
-                        <td>{{ inversionista.email }}</td>
-                        <td><a href="/inversionistas/edit/{{ inversionista.id }}" class="btn btn-secondary">Editar</a></td>
+                        <td>{{ proyecto.id }}</td>
+                        <td>{{ proyecto.nombre }}</td>
+                        <td>{{ proyecto.fechaInicio }}</td>
+                        <td>{{ proyecto.fechaFin }}</td>
+                        <td>{{ proyecto.inversion }}</td>
+                        <td><a href="/proyectos/edit/{{ proyecto.id }}" class="btn btn-secondary">Editar</a></td>
                         <td>
-                            <form action="/inversionistas/delete/{{ inversionista.id }}" method="POST" style="display:inline;">
+                            <form action="/proyectos/delete/{{ proyecto.id }}" method="POST" style="display:inline;">
                                 <button type="submit" class="btn btn-danger">Eliminar</button>
                             </form>
                         </td>
@@ -76,7 +78,7 @@
             </tbody>
         </table>
     </div>
-    <a href="/inversionistas/registro" class="btn btn-primary">Registrar Nuevo Inversionista</a>
+    <a href="/proyectos/registro" class="btn btn-primary">Registrar Nuevo Proyecto</a>
 </div>
 
 <hr>
@@ -89,9 +91,9 @@
             <label for="attribute-lineal">Atributo a Buscar</label>
             <select id="attribute-lineal" name="attribute" class="form-control">
                 <option value="nombre">Nombre</option>
-                <option value="apellido">Apellido</option>
-                <option value="email">Email</option>
-                <option value="identificacion">Identificación</option>
+                <option value="fecha_inicio">Fecha de Inicio</option>
+                <option value="fecha_fin">Fecha de Fin</option>
+                <option value="inversion">Inversión</option>
             </select>
         </div>
 
@@ -114,9 +116,9 @@
             <label for="attribute-binaria">Atributo a Buscar</label>
             <select id="attribute-binaria" name="attribute" class="form-control">
                 <option value="nombre">Nombre</option>
-                <option value="apellido">Apellido</option>
-                <option value="email">Email</option>
-                <option value="identificacion">Identificación</option>
+                <option value="fecha_inicio">Fecha de Inicio</option>
+                <option value="fecha_fin">Fecha de Fin</option>
+                <option value="inversion">Inversión</option>
             </select>
         </div>
 
@@ -135,17 +137,15 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
-        console.log("Inicializando scripts de formularios");
-
         // Enviar formulario de ordenación
         $('#ordenamiento-form').on('submit', function(event) {
             event.preventDefault();
             const algoritmo = $('#algorithm').val();
             const atributo = $('#attribute-order').val();
-            const tipo_orden = $('#type').val();
+            const tipoOrden = $('#type').val();
 
-            if (algoritmo && atributo && tipo_orden !== undefined) {
-                window.location.href = `/inversionistas/order/${algoritmo}/${atributo}/${tipo_orden}`;
+            if (algoritmo && atributo && tipoOrden !== undefined) {
+                window.location.href = `/proyectos/order/${algoritmo}/${atributo}/${tipoOrden}`;
             } else {
                 console.log("Valores del formulario de ordenación inválidos.");
             }
@@ -158,7 +158,7 @@
             const valor = $('#value-lineal').val();
 
             if (atributo && valor) {
-                window.location.href = `/inversionistas/LinearSearch/${atributo}/${valor}`;
+                window.location.href = `/proyectos/LinearSearch/${atributo}/${valor}`;
             } else {
                 console.log("Valores del formulario de búsqueda lineal inválidos.");
             }
@@ -171,12 +171,11 @@
             const valor = $('#value-binaria').val();
 
             if (atributo && valor) {
-                window.location.href = `/inversionistas/binarySearch/${atributo}/${valor}`;
+                window.location.href = `/proyectos/binarySearch/${atributo}/${valor}`;
             } else {
                 console.log("Valores del formulario de búsqueda binaria inválidos.");
             }
         });
     });
 </script>
-
 {% endblock %}

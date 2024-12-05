@@ -1,24 +1,26 @@
 package com.example.models;
-import java.util.Date;
 import com.example.controls.tda.list.*;
 
 public class Proyecto {
     private Integer id;
     private String nombre;
-    private Date fechaInicio;
-    private Date fechaFin;
-    private double inversion;
+    private String fechaInicio;
+    private String fechaFin;
+    private float inversion;
+    private Integer tiempoVida;
+    private float energiaGenerada;
 
-    public Proyecto (){
-        
-    }
+    
+
     // Constructor
-    public Proyecto(Integer id, String nombre, int tiempoVida, Date fechaInicio, Date fechaFin, double inversion, double energiaGenerada) {
+    public Proyecto( ) {
         this.id = 0;
         this.nombre = "";
-        this.fechaInicio = fechaInicio;
-        this.fechaFin = fechaFin;
-        this.inversion = inversion;
+        this.fechaInicio = "";
+        this.fechaFin = "";
+        this.inversion = 0.0F;
+        this.tiempoVida = 0;
+        this.energiaGenerada = 0.0F;
     }
 
     // Getters and Setters
@@ -39,19 +41,19 @@ public class Proyecto {
     }
 
 
-    public Date getFechaInicio() {
+    public String getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
+    public void setFechaInicio(String fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public Date getFechaFin() {
+    public String getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(Date fechaFin) {
+    public void setFechaFin(String fechaFin) {
         this.fechaFin = fechaFin;
     }
 
@@ -61,8 +63,23 @@ public class Proyecto {
         return inversion;
     }
 
-    public void setInversion(double inversion) {
+    public void setInversion(float inversion) {
         this.inversion = inversion;
+    }
+    public Integer getTiempoVida() {
+        return this.tiempoVida;
+    }
+
+    public void setTiempoVida(Integer tiempoVida) {
+        this.tiempoVida = tiempoVida;
+    }
+
+    public float getEnergiaGenerada() {
+        return this.energiaGenerada;
+    }
+
+    public void setEnergiaGenerada(float energiaGenerada) {
+        this.energiaGenerada = energiaGenerada;
     }
 
 

@@ -1,0 +1,137 @@
+[
+    {
+        "id": 1,
+        "nombre": "Parque Solar Atacama",
+        "fechaInicio": "2024-01-15",
+        "fechaFin": "2026-12-31", 
+        "inversion": "5750000.50",
+        "tiempoVida": "25",
+        "energia": "150.75"
+    },
+    {
+        "id": 2,
+        "nombre": "Eólico Costa Pacífica", 
+        "fechaInicio": "2024-03-01",
+        "fechaFin": "2027-02-28",
+        "inversion": "4230000.75",
+        "tiempoVida": "30",
+        "energia": "220.50"
+    },
+    {
+        "id": 3,
+        "nombre": "Hidroeléctrica Río Verde",
+        "fechaInicio": "2023-11-10", 
+        "fechaFin": "2026-10-30",
+        "inversion": "8500000.25",
+        "tiempoVida": "40",
+        "energia": "350.25"
+    },
+    {
+        "id": 4,
+        "nombre": "Biomasa Agroindustrial",
+        "fechaInicio": "2024-02-20",
+        "fechaFin": "2027-01-15", 
+        "inversion": "3200000.00",
+        "tiempoVida": "20",
+        "energia": "95.60"
+    },
+    {
+        "id": 5,
+        "nombre": "Central Solar Desértica",
+        "fechaInicio": "2024-04-05",
+        "fechaFin": "2027-03-25",
+        "inversion": "6700000.80",
+        "tiempoVida": "35",
+        "energia": "275.90"
+    },
+    {
+        "id": 6,
+        "nombre": "Energía Geotérmica Andina",
+        "fechaInicio": "2023-12-01",
+        "fechaFin": "2026-11-15",
+        "inversion": "7500000.35",
+        "tiempoVida": "45",
+        "energia": "185.40"
+    },
+    {
+        "id": 7,
+        "nombre": "Parque Eólico Patagonia", 
+        "fechaInicio": "2024-02-15",
+        "fechaFin": "2027-01-30",
+        "inversion": "5100000.60",
+        "tiempoVida": "28",
+        "energia": "210.75"
+    },
+    {
+        "id": 8,
+        "nombre": "Solar Urbano Metropolitano",
+        "fechaInicio": "2024-01-01",
+        "fechaFin": "2026-12-15",
+        "inversion": "4800000.45",
+        "tiempoVida": "22",
+        "energia": "125.30"
+    },
+    {
+        "id": 9,
+        "nombre": "Mareomotriz Costero", 
+        "fechaInicio": "2023-10-20",
+        "fechaFin": "2026-09-30",
+        "inversion": "9200000.90",
+        "tiempoVida": "50",
+        "energia": "280.65"
+    },
+    {
+        "id": 10,
+        "nombre": "Energía Eólica Offshore",
+        "fechaInicio": "2024-03-15", 
+        "fechaFin": "2027-02-15",
+        "inversion": "6300000.70",
+        "tiempoVida": "32",
+        "energia": "240.85"
+    },
+    {
+        "id": 11,
+        "nombre": "Planta Solar Fotovoltaica",
+        "fechaInicio": "2024-02-01",
+        "fechaFin": "2026-12-01", 
+        "inversion": "5500000.25",
+        "tiempoVida": "26",
+        "energia": "165.45"
+    },
+    {
+        "id": 12,
+        "nombre": "Biomasa Forestal",
+        "fechaInicio": "2023-11-25",
+        "fechaFin": "2026-10-20",
+        "inversion": "3800000.15",
+        "tiempoVida": "18",
+        "energia": "85.20"
+    },
+    {
+        "id": 13,
+        "nombre": "Central Hidroeléctrica Andina",
+        "fechaInicio": "2024-01-10",
+        "fechaFin": "2027-01-10",
+        "inversion": "7800000.50",
+        "tiempoVida": "38",
+        "energia": "310.55"
+    },
+    {
+        "id": 14,
+        "nombre": "Energía Solar Concentrada",
+        "fechaInicio": "2024-04-01",
+        "fechaFin": "2027-03-15",
+        "inversion": "6000000.40",
+        "tiempoVida": "30",
+        "energia": "200.35"
+    },
+    {
+        "id": 15,
+        "nombre": "Parque Eólico Costero",
+        "fechaInicio": "2023-12-15",
+        "fechaFin": "2026-11-25",
+        "inversion": "5300000.75",
+        "tiempoVida": "27",
+        "energia": "195.60"
+    }
+]

@@ -6,11 +6,11 @@ def create_app():
     with app.app_context():
         from routes.route import router
         from routes.route_inversionistas import route_inversionistas
-        from routes.route_proyecto import route_proyecto
+        from routes.route_proyectos import route_proyectos
 
         app.register_blueprint(router)
         app.register_blueprint(route_inversionistas)
-        app.register_blueprint(route_proyecto)
+        app.register_blueprint(route_proyectos)
 
     return app
 

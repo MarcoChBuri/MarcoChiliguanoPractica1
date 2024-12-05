@@ -94,7 +94,7 @@ public class InversionistaDao extends AdapterDao<Inversionista> {
         if (inversionistas == null || inversionistas.getSize() == 0) {
             throw new Exception("La lista de inversionistas está vacía.");
         }
-        return inversionistas.sort(algorithm, attribute, type);
+        return inversionistas.tipo(algorithm, attribute, type);
     }
     
     

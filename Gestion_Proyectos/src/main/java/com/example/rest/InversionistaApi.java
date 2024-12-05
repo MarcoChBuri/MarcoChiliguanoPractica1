@@ -55,6 +55,8 @@ public class InversionistaApi {
             ps.getInversionista().setNombre(map.get("nombre").toString());
             ps.getInversionista().setApellido(map.get("apellido").toString());
             ps.getInversionista().setEmail(map.get("email").toString());
+            ps.getInversionista().setIdentification(map.get("Identification").toString());
+
             ps.save();
 
             res.put("msg", "OK");
@@ -103,6 +105,7 @@ public class InversionistaApi {
             ps.getInversionista().setNombre(map.get("nombre").toString());
             ps.getInversionista().setApellido(map.get("apellido").toString());
             ps.getInversionista().setEmail(map.get("email").toString());
+            ps.getInversionista().setIdentification(map.get("Identification").toString());
             ps.update();
 
             res.put("msg", "OK");
@@ -149,7 +152,7 @@ public class InversionistaApi {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(res).build();
         }
     }
-    @Path("/order/{algorithm}/{attribute}/{type}")
+@Path("/order/{algorithm}/{attribute}/{type}")
 @GET
 @Produces(MediaType.APPLICATION_JSON)
 public Response EscogerOrdenamiento(
@@ -177,6 +180,62 @@ public Response EscogerOrdenamiento(
     }
     return Response.ok(map).build();
 }
-    
 
+@Path("/buscar/LinearSearch/{attribute}/{value}")
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response BuscarLinear(
+        @PathParam("attribute") String attribute,
+        @PathParam("value") String value
+    ) {
+        HashMap<String, Object> map = new HashMap<>();
+        if ( attribute == null || value == null) {
+            map.put("msg", "Error: Parámetros inválidos o faltantes.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
+        }
+
+        try {
+            InversionistaService ps = new InversionistaService();
+            LinkedList data = ps.SearchLinear(attribute, value);
+            map.put("data", data.toArray());
+
+            if (data.isEmpty()) {
+                map.put("msg", "No data found");
+            }
+        } catch (Exception e) {
+            map.put("msg", e.toString());
+            return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
+        }
+        return Response.ok(map).build();
+    }
+    @Path("/buscar/binarySearch/{attribute}/{value}")
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response BuscarBynary(
+        @PathParam("attribute") String attribute,
+        @PathParam("value") String value
+    ) {
+        HashMap<String, Object> map = new HashMap<>();
+        if ( attribute == null || value == null) {
+            map.put("msg", "Error: Parámetros inválidos o faltantes.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
+        }
+
+        try {
+            InversionistaService ps = new InversionistaService();
+            LinkedList<Inversionista> data = ps.EscogerOrdenamiento("mergesort", attribute, 1);
+            data = data.binarySearch(attribute, value);
+            map.put("data", data.toArray());
+
+            if (data.isEmpty()) {
+                map.put("data", "No data found");
+            }
+        } catch (Exception e) {
+            map.put("msg", e.toString());
+            return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
+        }
+        return Response.ok(map).build();
+    }
 }

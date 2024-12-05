@@ -41,9 +41,12 @@
                     <div id="collapseComponents" class="collapse" aria-labelledby="headingComponents" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Escoger creacion</h6>
-                            <a class="collapse-item" href="{{ url_for('router.page1') }}">Inversionista</a>
-                            <a class="collapse-item" href="{{ url_for('router.page2') }}">Proyecto</a>
+                            <!-- Enlace para Inversionista -->
+                            <a class="collapse-item" href="{{ url_for('route_inversionistas.registro_inversionista') }}">Inversionista</a>
+                            <!-- Enlace para Proyecto -->
+                            <a class="collapse-item" href="{{ url_for('route_proyectos.registro_proyecto') }}">Proyecto</a>
                         </div>
+                        
                     </div>
                 </li>
                 <li class="nav-item">
@@ -55,7 +58,8 @@
                     <div id="collapseTables" class="collapse" aria-labelledby="headingTables" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Table Options:</h6>
-                            <a class="collapse-item" href="tables.html">Go to Tables</a>
+                            <a class="collapse-item" href="{{ url_for('route_inversionistas.view_inversionistas') }}">Inversionistas</a>
+                            <a class="collapse-item" href="{{ url_for('route_proyectos.view_proyectos') }}">Proyectos</a>
                         </div>
                     </div>
                 </li>
@@ -80,8 +84,7 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <h2>Welcome to the Base Template</h2>
-                    <p>Replace this content with your page content.</p>
+                 
                     
                     <!-- Example Buttons for Navigation -->
 

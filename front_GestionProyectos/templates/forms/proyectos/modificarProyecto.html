@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Proyecto{% endblock %}
+
+{% block content %}
+    <h1>Editar Proyecto</h1>
+    <form action="/proyectos/update" method="POST">
+        <input type="hidden" name="id" value="{{ proyecto.id }}">
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" name="nombre" class="form-control" value="{{ proyecto.nombre }}" required>
+        </div>
+        <div class="form-group">
+            <label for="fechaInicio">Fecha de Inicio:</label>
+            <input type="date" name="fechaInicio" class="form-control" value="{{ proyecto.fechaInicio }}" required>
+        </div>
+        <div class="form-group">
+            <label for="fechaFin">Fecha de Fin:</label>
+            <input type="date" name="fechaFin" class="form-control" value="{{ proyecto.fechaFin }}" required>
+        </div>
+        <div class="form-group">
+            <label for="inversion">Inversión:</label>
+            <input type="number" step="0.01" name="inversion" class="form-control" value="{{ proyecto.inversion }}" required>
+        </div>
+        <div class="form-group">
+            <label for="tiempoVida">Tiempo de Vida (en años):</label>
+            <input type="number" name="tiempoVida" class="form-control" value="{{ proyecto.tiempoVida }}" required>
+        </div>
+        <div class="form-group">
+            <label for="energia">Energía Generada:</label>
+            <input type="number" step="0.01" name="energia" class="form-control" value="{{ proyecto.energiaGenerada }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Actualizar</button>
+    </form>
+{% endblock %}
