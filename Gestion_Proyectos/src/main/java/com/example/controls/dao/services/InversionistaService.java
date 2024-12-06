@@ -64,8 +64,8 @@ public class InversionistaService {
     public LinkedList<Inversionista> EscogerOrdenamiento(String algorithm, String attribute, Integer type) throws Exception {
         return this.inversionista.getListAll().tipo(algorithm, attribute, type); // Llama al método sort de tu lista enlazada.
     }
-    public LinkedList<Inversionista>  SearchByBinary(String attribute, String value)throws Exception{
-        return this.inversionista.getListAll().binarySearch(attribute, value);
+    public LinkedList<Inversionista>  SearchBinary(String attribute, String value)throws Exception{
+        return this.inversionista.buscaPorBynario(attribute, value);
     }
     public LinkedList<Inversionista> SearchLinear(String attribute, String value)throws Exception{
         return this.inversionista.getListAll().linearSearch(attribute, value);

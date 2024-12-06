@@ -1,25 +1,21 @@
 from flask import Blueprint, json, render_template, request, redirect, url_for, flash
 import requests
 
-# Definir el Blueprint para las rutas de inversionistas
 route_inversionistas = Blueprint('route_inversionistas', __name__)
 
-# URL del API backend (modifica según sea necesario)
 URL = 'http://localhost:8080/myapp/inversionistas/'
 
-# Ruta para mostrar todos los inversionistas
 @route_inversionistas.route('/inversionistas')
 def view_inversionistas():
     r = requests.get(URL + 'all')
+    print(r.json())  
     data = r.json().get('data')
     return render_template('parts/inversionistas.html', inversionistas=data)
 
-# Ruta para mostrar el formulario de registro de un inversionista
 @route_inversionistas.route('/inversionistas/registro')
 def registro_inversionista():
     return render_template('forms/inversionistas/registroinversionistas.html')
 
-# Ruta para guardar un nuevo inversionista
 @route_inversionistas.route('/inversionistas/registro/save', methods=["POST"])
 def save_inversionista():
     headers = {'Content-Type': 'application/json'}
@@ -28,7 +24,7 @@ def save_inversionista():
         "nombre": form["nombre"],
         "apellido": form["apellido"],
         "email": form["email"],
-        "iIdentification": form["Identification"]
+        "Identification": form["Identification"]
     }
     r = requests.post(URL + 'save', data=json.dumps(dataForm), headers=headers)
 
@@ -38,7 +34,6 @@ def save_inversionista():
         flash('No se ha podido registrar al inversionista', category='error')
     return redirect('/inversionistas')
 
-# Ruta para mostrar el formulario de edición de un inversionista
 @route_inversionistas.route('/inversionistas/edit/<id>')
 def update_inversionista_view(id):
     r = requests.get(URL + 'get/' + id)
@@ -49,7 +44,6 @@ def update_inversionista_view(id):
         flash('No se pudo encontrar el inversionista', category='error')
         return redirect('/inversionistas')
 
-# Ruta para actualizar un inversionista
 @route_inversionistas.route('/inversionistas/edit/save', methods=["POST"])
 def update_inversionista():
     headers = {'Content-Type': 'application/json'}
@@ -71,7 +65,6 @@ def update_inversionista():
         flash('No se pudo actualizar el inversionista', category='error')
     return redirect('/inversionistas')
 
-# Ruta para eliminar un inversionista
 @route_inversionistas.route('/inversionistas/delete/<id>', methods=["POST"])
 def delete_inversionista(id):
     headers = {'Content-Type': 'application/json'}
@@ -85,7 +78,6 @@ def delete_inversionista(id):
         flash('No se pudo eliminar el inversionista', category='error')
     return redirect('/inversionistas')
 
-# Ruta para ordenar inversionistas
 @route_inversionistas.route('/inversionistas/order/<algorithm>/<attribute>/<type>')
 def order_inversionistas(algorithm, attribute, type):
     url = URL + 'order' + '/' + algorithm + '/' + attribute + '/' + type
@@ -102,12 +94,12 @@ def order_inversionistas(algorithm, attribute, type):
         flash(f'Error al ordenar los inversionistas. Código de estado:', category='error')
         return redirect('/inversionistas')
 
-# Ruta para búsqueda lineal de inversionistas
 @route_inversionistas.route('/inversionistas/LinearSearch/<attribute>/<value>')
 def search_linear(attribute, value):
     url = URL + 'buscar/LinearSearch/'  + attribute + '/' + value
     r = requests.get(url)
     print(url)
+    print(r.json())  
 
     data = r.json().get("data")
     if r.status_code == 200:
@@ -117,7 +109,6 @@ def search_linear(attribute, value):
         flash('No se encontraron resultados con la búsqueda lineal', category='info')
         return redirect('/inversionistas')
 
-# Ruta para búsqueda binaria de inversionistas
 @route_inversionistas.route('/inversionistas/binarySearch/<attribute>/<value>')
 def search_binary(attribute, value):
     url = URL + 'buscar/binarySearch/'  + attribute + '/' + value

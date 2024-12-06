@@ -599,9 +599,23 @@ public LinkedList<E> tipoNUM(String algorithm, Integer type) throws Exception {
     
     }
     
+    //numeros:
+    public LinkedList<E> NUMLineal(Object value) throws Exception {
+        LinkedList<E> list = new LinkedList<>();
+        if (!this.isEmpty()) {
+            E[] aux = this.toArray();
+            for (int i = 0; i < aux.length; i++) {
+                if (aux[i].equals(value)) {
+                    list.add(aux[i]);
+                    break;
+                }
+            }
+        }
+        return list;
+    }
+
     
-    
-    
+    ///binaria
     public LinkedList<E> binarySearch(String attribute, String value) throws Exception {
         LinkedList<E> resultList = new LinkedList<>();
         E[] array = this.toArray();
@@ -674,6 +688,52 @@ public LinkedList<E> tipoNUM(String algorithm, Integer type) throws Exception {
             }
         }
     }
+
+//numeros
+public LinkedList<E> NUMBinary(Object value) throws Exception {
+    LinkedList<E> list = new LinkedList<>();
+    if (!this.isEmpty()) {
+        this.orderByQuickSort(0);
+        E[] aux = this.toArray();
+        int first = 0;
+        int last = aux.length - 1;
+        Boolean find = false;
+        while (first <= last && find == false) {
+            int mid = (first + last) / 2;
+            if (aux[mid].equals(value)) {
+                list.add(aux[mid]);
+                int left = mid - 1;
+                while (left >= 0) {
+                    if (aux[left].equals(value)) {
+                        list.addHeader(aux[left]);
+                        left--;
+                    } else {
+                        break;
+                    }
+                }
+
+                int right = mid + 1;
+                while (right < aux.length) {
+                    if (aux[right].equals(value)) {
+                        list.add(aux[right]);
+                        right++;
+                    } else {
+                        break;
+                    }
+                }
+
+                find = true;
+            } else {
+                if (compare(aux[mid], value, 0)) {
+                    last = mid - 1;
+                } else {
+                    first = mid + 1;
+                }
+            }
+        }
+    }
+    return list;
+}
 
 
 

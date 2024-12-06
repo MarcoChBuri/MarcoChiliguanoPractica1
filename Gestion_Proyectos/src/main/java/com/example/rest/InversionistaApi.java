@@ -64,6 +64,7 @@ public class InversionistaApi {
 
             return Response.ok(res).build();
         } catch (Exception e) {
+            
             res.put("msg", "Error");
             res.put("data", e.toString());
 
@@ -97,7 +98,6 @@ public class InversionistaApi {
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(HashMap map) {
         HashMap res = new HashMap<>();
-
         try {
                 InversionistaService ps = new    InversionistaService();
 
@@ -225,8 +225,7 @@ public Response EscogerOrdenamiento(
 
         try {
             InversionistaService ps = new InversionistaService();
-            LinkedList<Inversionista> data = ps.EscogerOrdenamiento("mergesort", attribute, 1);
-            data = data.binarySearch(attribute, value);
+            LinkedList<Inversionista> data = ps.SearchBinary(attribute, value);
             map.put("data", data.toArray());
 
             if (data.isEmpty()) {

@@ -96,7 +96,15 @@ public class InversionistaDao extends AdapterDao<Inversionista> {
         }
         return inversionistas.tipo(algorithm, attribute, type);
     }
-    
-    
+    public LinkedList  buscaPorBynario(String attribute, String value)throws Exception{
+        LinkedList inversionistas = getListAll().tipo("shellsort",attribute,1);
 
-}
+        if (inversionistas == null || inversionistas.getSize() == 0) {
+            throw new Exception("La lista de inversionistas está vacía.");
+        }
+            return inversionistas.binarySearch(attribute, value);
+        
+        }
+          
+    }
+
