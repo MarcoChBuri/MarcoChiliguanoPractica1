@@ -83,11 +83,6 @@ public class InversionistaDao extends AdapterDao<Inversionista> {
         }
         return true; 
     }
-    // public LinkedList EscogerOrdenamiento(String algorithm, String attribute, Integer type) throws Exception {
-    //     LinkedList inversionista = listAll(); 
-
-    //     return inversionista.sort(algorithm, attribute, type); // Llama al método sort de tu lista enlazada.
-    // }
     
     public LinkedList EscogerOrdenamiento(String algorithm, String attribute, Integer type) throws Exception {
         LinkedList inversionistas = getListAll();

@@ -23,7 +23,6 @@
                 <option value="nombre">Nombre</option>
                 <option value="apellido">Apellido</option>
                 <option value="email">Email</option>
-                <option value="Identification">Identificación</option>
             </select>
         </div>
 
@@ -54,7 +53,6 @@
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Email</th>
-                    <th>Identificación</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
                 </tr>
@@ -66,7 +64,6 @@
                         <td>{{ inversionista.nombre }}</td>
                         <td>{{ inversionista.apellido }}</td>
                         <td>{{ inversionista.email }}</td>
-                        <td>{{ inversionista.Identification }}</td>
                         <td><a href="/inversionistas/edit/{{ inversionista.id }}" class="btn btn-secondary">Editar</a></td>
                         <td>
                             <form action="/inversionistas/delete/{{ inversionista.id }}" method="POST" style="display:inline;">

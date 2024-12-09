@@ -6,6 +6,14 @@ import com.example.controls.tda.exception.*;
 
 public class PruebaVelocidad {
 
+    public static void main(String[] args) {
+        try {
+            imprimirResultado();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     static LinkedList<Integer> generarListaAleatoria(int tamano) {
         Integer[] array = new Integer[tamano];
         LinkedList<Integer> lista = new LinkedList<>();
@@ -43,11 +51,11 @@ public class PruebaVelocidad {
             tiempoTotal += (fin - inicio);
         }
 
-        return tiempoTotal / repeticiones / 1_000_000.0;
+        return tiempoTotal / repeticiones / 1_000_000.0; 
     }
 
     static double medirTiempoBusqueda(LinkedList<Integer> lista, String metodoBusqueda, Integer valor) throws Exception {
-        System.out.println("Valor a buscar: " + valor); // Imprimir el valor buscado
+        System.out.println("Valor a buscar: " + valor); 
     
         long inicio = System.nanoTime();
     
@@ -63,23 +71,46 @@ public class PruebaVelocidad {
         }
     
         long fin = System.nanoTime();
-        return (fin - inicio) / 1_000_000.0;
+        return (fin - inicio) / 1_000_000.0; 
     }
-    
-    public static void main(String[] args) {
-        LinkedList<Integer> lista = generarListaAleatoria(25_000);
-        int numTests = 5;
-    
-        try {
-            System.out.println("Tiempo de ejecución (Shell): " + medirTiempoOrdenamiento(lista, "shell", 0, numTests) + " ms");
-            System.out.println("Tiempo de ejecución (Merge): " + medirTiempoOrdenamiento(lista, "merge", 0, numTests) + " ms");
-            System.out.println("Tiempo de ejecución (Quick): " + medirTiempoOrdenamiento(lista, "quick", 0, numTests) + " ms");
-    
-            System.out.println("Tiempo de búsqueda (Lineal, valor fijo): " + medirTiempoBusqueda(lista, "lineal", 1000) + " ms");
-            System.out.println("Tiempo de búsqueda (Binaria, valor fijo): " + medirTiempoBusqueda(lista, "binaria", 1000) + " ms");
-    
-        } catch (Exception e) {
-            e.printStackTrace();
+
+    static void imprimirResultado() throws Exception {
+        int[] tamanos = {10_000, 20_000, 25_000};
+        int numTests = 5; 
+
+        System.out.println("Ejecutando pruebas de ordenamiento...");
+
+        for (int tamano : tamanos) {
+            LinkedList<Integer> lista = generarListaAleatoria(tamano);
+            System.out.println("Para tamaño de lista: " + tamano + " elementos");
+            
+            double tiempoShell = medirTiempoOrdenamiento(lista, "shell", 0, numTests);
+            System.out.println("ShellSort: " + tiempoShell + " ms");
+
+            double tiempoMerge = medirTiempoOrdenamiento(lista, "merge", 0, numTests);
+            System.out.println("MergeSort: " + tiempoMerge + " ms");
+
+            double tiempoQuick = medirTiempoOrdenamiento(lista, "quick", 0, numTests);
+            System.out.println("QuickSort: " + tiempoQuick + " ms");
+            
+            System.out.println("------");
+        }
+
+        System.out.println("Ejecutando pruebas de búsqueda...");
+
+        for (int tamano : tamanos) {
+            LinkedList<Integer> lista = generarListaAleatoria(tamano);
+            int valorABuscar = 1000; 
+            System.out.println("Para tamaño de lista: " + tamano + " elementos");
+            
+            double tiempoLineal = medirTiempoBusqueda(lista, "lineal", valorABuscar);
+            System.out.println("Búsqueda Lineal: " + tiempoLineal + " ms");
+            
+            double tiempoBinario = medirTiempoBusqueda(lista, "binaria", valorABuscar);
+            System.out.println("Búsqueda Binaria: " + tiempoBinario + " ms");
+            
+            System.out.println("------");
         }
     }
+
 }

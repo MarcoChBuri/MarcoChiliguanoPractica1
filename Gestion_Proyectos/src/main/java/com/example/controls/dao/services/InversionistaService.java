@@ -51,15 +51,7 @@ public class InversionistaService {
     public Inversionista get(Integer id) throws Exception{
         return this.inversionista.get(id);
     }
-    // public LinkedList ordenarShellShort(String attribute, Integer type)throws Exception{
-    //     return this.inversionista.listAll().ordenarShellShort(attribute, type);
-    // }
-    // public LinkedList ordenarMergeShort(String attribute, Integer type)throws Exception{
-    //     return this.inversionista.listAll().ordenarMergeShort(attribute, type);
-    // }
-    // public LinkedList ordenarQuickShort(String attribute, Integer type)throws Exception{
-    //     return this.inversionista.listAll().ordenarQuickShort(attribute, type);
-    // }
+
 
     public LinkedList<Inversionista> EscogerOrdenamiento(String algorithm, String attribute, Integer type) throws Exception {
         return this.inversionista.getListAll().tipo(algorithm, attribute, type); // Llama al método sort de tu lista enlazada.

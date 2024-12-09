@@ -245,7 +245,6 @@ public class LinkedList<E> {
                     Number b1 = (Number) b;
                     return a1.doubleValue() > b1.doubleValue();
                 } else {
-                    // "casa" > "pedro"
                     return (a.toString()).compareTo(b.toString()) > 0;
                 }
                 // break;
@@ -257,7 +256,6 @@ public class LinkedList<E> {
                     Number b1 = (Number) b;
                     return a1.doubleValue() < b1.doubleValue();
                 } else {
-                    // "casa" > "pedro"
                     return (a.toString()).compareTo(b.toString()) < 0;
                 }
                 // break;
@@ -295,22 +293,21 @@ public class LinkedList<E> {
     }
 
     //MERGESHORT
-
     private void merge(E[] list, int left, int mid, int right, String attribute, Integer type) throws Exception {
         int n1 = mid - left + 1;
         int n2 = right - mid;
-
+    
         E[] leftList = (E[]) new Object[n1];
         E[] rightList = (E[]) new Object[n2];
-
+    
         for (int i = 0; i < n1; ++i)
             leftList[i] = list[left + i];
         for (int j = 0; j < n2; ++j)
             rightList[j] = list[mid + 1 + j];
-
+    
         int i = 0, j = 0;
-
         int k = left;
+    
         while (i < n1 && j < n2) {
             if (attribute_compare(attribute, leftList[i], rightList[j], type)) {
                 list[k] = leftList[i];
@@ -321,97 +318,83 @@ public class LinkedList<E> {
             }
             k++;
         }
-
+    
         while (i < n1) {
             list[k] = leftList[i];
             i++;
             k++;
         }
-
+    
         while (j < n2) {
             list[k] = rightList[j];
             j++;
             k++;
         }
     }
-
+    
     private void mergesort(E[] list, int left, int right, String attribute, Integer type) throws Exception {
         if (left < right) {
             int mid = left + (right - left) / 2;
-
-            mergesort(list, left, mid, attribute, type);
-            mergesort(list, mid + 1, right, attribute, type);
-
-            merge(list, left, mid, right, attribute, type);
+    
+            mergesort(list, left, mid, attribute, type);  
+            mergesort(list, mid + 1, right, attribute, type); 
+    
+            merge(list, left, mid, right, attribute, type); 
         }
     }
-    //numeros mergeshort
-    public LinkedList<E> orderByMergeSort(Integer type) throws Exception {
-        if (!isEmpty()) {
-            E data = this.header.getInfo();
-            if (data instanceof Number || data instanceof String) {
-                E[] lista = this.toArray();
-                reset();
-                this.toList(mergeSort(lista, type));
-            }
-        }
-        return this;
-    }
-    private E[] mergeSort(E[] lista, Integer type) throws Exception {
-        if (lista.length <= 1) {
-            return lista;
-        } else {
-            int middle = lista.length / 2;
-
-            E[] left = (E[])new Object[middle];
-            E[] right = (E[])new Object[lista.length - middle];
-
-            for (int i = 0; i < middle; i++) {
-                left[i] = lista[i];
-            }
-
-            int j = 0;
-            for (int k = middle; k < lista.length; k++) {
-                right[j] = lista[k];
-                j++;
-            }
-
-            left = mergeSort(left, type);
-            right = mergeSort(right, type);
-            
-            if (left.length >= 1 && right.length >= 1) {
-                merge(lista, left, right, type);
-            }
-        }
-        return lista;
-    }
-
-    private void merge(E[] lista, E[] left, E[] right, Integer type) throws Exception {
-        int i = 0, j = 0, k = 0;
-
-        while (i < left.length && j < right.length) {
-            if (compare(left[i], right[j], type)) {
-                lista[k] = right[j];
-                j++;
-            } else {
-                lista[k] = left[i];
+    //numeros:
+    private void merge(E[] list, int left, int mid, int right, Integer type) throws Exception {
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
+    
+        E[] leftList = (E[]) new Object[n1];
+        E[] rightList = (E[]) new Object[n2];
+    
+        for (int i = 0; i < n1; ++i)
+            leftList[i] = list[left + i];
+        for (int j = 0; j < n2; ++j)
+            rightList[j] = list[mid + 1 + j];
+    
+        int i = 0, j = 0;
+        int k = left;
+    
+        while (i < n1 && j < n2) {
+            if (compare(leftList[i], rightList[j], type)) {
+                list[k] = leftList[i];
                 i++;
+            } else {
+                list[k] = rightList[j];
+                j++;
             }
             k++;
         }
-
-        while (i < left.length) {
-            lista[k] = left[i];
+    
+        while (i < n1) {
+            list[k] = leftList[i];
             i++;
             k++;
         }
-
-        while (j < right.length) {
-            lista[k] = right[j];
+    
+        while (j < n2) {
+            list[k] = rightList[j];
             j++;
             k++;
         }
     }
+    
+    private void mergesort(E[] list, int left, int right, Integer type) throws Exception {
+        if (left < right) {
+            int mid = left + (right - left) / 2;
+    
+            mergesort(list, left, mid, type);  
+    
+            merge(list, left, mid, right, type);  
+        }
+    }
+    
+    
+
+   
     //QUICKSORT
     private int partition(E[] list, int low, int high, String attribute, Integer type) throws Exception {
         E pivot = list[high];
@@ -441,50 +424,39 @@ public class LinkedList<E> {
             quicksort(list, pi + 1, high, attribute, type);
         }
     }
-    //numeros quitshort
-
-    public LinkedList<E> orderByQuickSort(Integer type) throws Exception {
-        if (!isEmpty()) {
-            E data = this.header.getInfo();
-            if (data instanceof Number || data instanceof String) {
-                E[] lista = this.toArray();
-                reset();
-                quickSort(lista, 0, lista.length-1, type);
-                this.toList(lista);
-            }
-        }
-        return this;
-    }
-    private void quickSort(E[] lista, int low, int high, Integer type) throws Exception {
-        if (low < high) {
-            int pivote = partition(lista, low, high, type);
-
-            quickSort(lista, low, pivote - 1, type);
-            quickSort(lista, pivote + 1, high, type);
-            
-        } 
-    }
-
-    private int partition(E[] lista, int low, int high, Integer type) throws Exception {
-        E pivote = lista[high];
+    //numeros
+    private int partition(E[] list, int low, int high, Integer type) throws Exception {
+        E pivot = list[high];
         int i = low - 1;
-
+    
         for (int j = low; j < high; j++) {
-            if (compare(pivote, lista[j], type)) {
+            if (compare(list[j], pivot, type)) {
                 i++;
-                E aux = lista[i];
-                lista[i] = lista[j];
-                lista[j] = aux;
+                E temp = list[i];
+                list[i] = list[j];
+                list[j] = temp;
             }
         }
-
-        E aux = lista[i + 1];
-        lista[i + 1] = lista[high];
-        lista[high] = aux;
-
+    
+        E temp = list[i + 1];
+        list[i + 1] = list[high];
+        list[high] = temp;
+    
         return i + 1;
     }
-    //SHELLSORT
+    
+    private void quicksort(E[] list, int low, int high, Integer type) throws Exception {
+        if (low < high) {
+            int pi = partition(list, low, high, type);
+    
+            quicksort(list, low, pi - 1, type);
+            quicksort(list, pi + 1, high, type);
+        }
+    }
+    
+
+    
+    // //SHELLSORT
 
     private void shellsort(E[] list, String attribute, Integer type) throws Exception {
         int n = list.length;
@@ -500,42 +472,29 @@ public class LinkedList<E> {
             }
         }
     }
-
-    // numeros shelshort
-
-    public LinkedList<E> orderByShellSort(Integer type) throws Exception {
-        if (!isEmpty()) {
-            E data = this.header.getInfo();
-            if (data instanceof Object) {
-                E[] lista = this.toArray();
-                reset();
-                Integer intervalo = lista.length / 2;
-                while (intervalo >= 1) {
-                    for (int i = 0; i+intervalo < lista.length; i++) {
-                        int j = i;
-                        while (j >= 0) {
-                            int k = j + intervalo;
-                            if (compare(lista[j], lista[k], type)) {
-                                E aux = lista[j];
-                                lista[j] = lista[k];
-                                lista[k] = aux;
-                                j -= intervalo;
-                            } else {
-                                j = -1;
-                            }
-                        }
-                    }
-                    intervalo = intervalo / 2;  
+    //numeros 
+    private void shellsort(E[] list, Integer type) throws Exception {
+        int n = list.length;
+    
+        for (int gap = n / 2; gap > 0; gap /= 2) {
+            for (int i = gap; i < n; i++) {
+                E temp = list[i]; 
+                int j;
+    
+                for (j = i; j >= gap && compare(temp, list[j - gap], type); j -= gap) {
+                    list[j] = list[j - gap];
                 }
-                this.toList(lista);
+    
+                list[j] = temp;
             }
         }
-        return this;
     }
+    
 
+   
     //escoger metodoOrdenacion nstring
     public LinkedList tipo(String algorithm, String attribute, Integer type) throws Exception {
-        E[] array = this.toArray(); // Convierte la lista a array.
+        E[] array = this.toArray(); 
     
         switch (algorithm.toLowerCase()) {
             case "quicksort":
@@ -554,19 +513,20 @@ public class LinkedList<E> {
         return this.toList(array);
     }
 // escoger metodo ordenacion Int:
-// Sobrecarga para ordenar basado en números directamente
 public LinkedList<E> tipoNUM(String algorithm, Integer type) throws Exception {
-    E[] array = this.toArray(); // Convierte la lista a array.
-    
+    E[] array = this.toArray();
+
+
     switch (algorithm.toLowerCase()) {
         case "quicksort":
-            orderByQuickSort(type);
+            quicksort(array, 0, 0, type);
             break;
         case "mergesort":
-            orderByMergeSort(type);            
+            mergesort(array, 0, 0, type);
             break;
         case "shellsort":
-            orderByShellSort(type);            break;
+            shellsort(array, type);
+            break;
         default:
             throw new IllegalArgumentException("Algoritmo no soportado: " + algorithm);
     }
@@ -576,9 +536,10 @@ public LinkedList<E> tipoNUM(String algorithm, Integer type) throws Exception {
 
 
 
+
 //-------METDOS DE BUSQUEDA--------
     public LinkedList<E> linearSearch(String attribute, String value) throws Exception {
-        LinkedList<E> listita = new LinkedList<>();
+        LinkedList<E> lista = new LinkedList<>();
         E[] array = this.toArray(); 
     
         for (int i = 0; i < array.length; i++) {
@@ -590,28 +551,28 @@ public LinkedList<E> tipoNUM(String algorithm, Integer type) throws Exception {
                 String valueStr = value.toLowerCase(); 
     
                 if (attributeValueStr.startsWith(valueStr)) {
-                    listita.add(element); 
+                    lista.add(element); 
                 }
             }
         }
     
-        return listita;
+        return lista;
     
     }
     
     //numeros:
     public LinkedList<E> NUMLineal(Object value) throws Exception {
-        LinkedList<E> list = new LinkedList<>();
+        LinkedList<E> lista = new LinkedList<>();
         if (!this.isEmpty()) {
             E[] aux = this.toArray();
             for (int i = 0; i < aux.length; i++) {
                 if (aux[i].equals(value)) {
-                    list.add(aux[i]);
+                    lista.add(aux[i]);
                     break;
                 }
             }
         }
-        return list;
+        return lista;
     }
 
     
@@ -690,50 +651,66 @@ public LinkedList<E> tipoNUM(String algorithm, Integer type) throws Exception {
     }
 
 //numeros
-public LinkedList<E> NUMBinary(Object value) throws Exception {
-    LinkedList<E> list = new LinkedList<>();
-    if (!this.isEmpty()) {
-        this.orderByQuickSort(0);
-        E[] aux = this.toArray();
-        int first = 0;
-        int last = aux.length - 1;
-        Boolean find = false;
-        while (first <= last && find == false) {
-            int mid = (first + last) / 2;
-            if (aux[mid].equals(value)) {
-                list.add(aux[mid]);
-                int left = mid - 1;
-                while (left >= 0) {
-                    if (aux[left].equals(value)) {
-                        list.addHeader(aux[left]);
-                        left--;
-                    } else {
-                        break;
-                    }
-                }
+public LinkedList<E> NUMBinary(Number value) throws Exception {
 
-                int right = mid + 1;
-                while (right < aux.length) {
-                    if (aux[right].equals(value)) {
-                        list.add(aux[right]);
-                        right++;
-                    } else {
-                        break;
-                    }
-                }
+    LinkedList<E> resultList = new LinkedList<>();
+    E[] array = this.toArray();
+    mergesort(array, 0, 0, size);  
+    int low = 0;
+    int high = array.length - 1;
 
-                find = true;
-            } else {
-                if (compare(aux[mid], value, 0)) {
-                    last = mid - 1;
-                } else {
-                    first = mid + 1;
-                }
-            }
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+        E midElement = array[mid];
+        Comparable<Number> midValue = (Comparable<Number>) midElement;
+
+        int comparison = midValue.compareTo(value);
+
+        if (comparison == 0) {  
+            resultList.add(midElement);
+            break;
+        } else if (comparison < 0) {  
+            low = mid + 1;
+        } else {  
+            high = mid - 1;
         }
     }
-    return list;
+
+    int mid = low + (high - low) / 2;  
+    E midElement = array[mid];
+    resultList.add(midElement);
+
+    // Búsqueda hacia la izquierda
+    int left = mid - 1;
+    while (left >= 0) {
+        E leftElement = array[left];
+        Comparable<Number> leftValue = (Comparable<Number>) leftElement;
+
+        if (leftValue.compareTo(value) == 0) {
+            resultList.add(leftElement);
+            left--;
+        } else {
+            break;
+        }
+    }
+
+    // Búsqueda hacia la derecha
+    int right = mid + 1;
+    while (right < array.length) {
+        E rightElement = array[right];
+        Comparable<Number> rightValue = (Comparable<Number>) rightElement;
+
+        if (rightValue.compareTo(value) == 0) {
+            resultList.add(rightElement);
+            right++;
+        } else {
+            break;
+        }
+    }
+
+    return resultList;
 }
+
 
 
 
